@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "952036598274",
+    "project_id": "flutter-doto",
+    "storage_bucket": "flutter-doto.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:952036598274:android:fa14d095303437603abd1b",
+        "android_client_info": {
+          "package_name": "com.mt.flutter_dota_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "952036598274-f0pivk4t5dp62bqfraimgacs1i9cvad3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAlBCUO2CJl8uBHHfYepG-M1hJA8Rkbr0c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "952036598274-f0pivk4t5dp62bqfraimgacs1i9cvad3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
