@@ -61,7 +61,9 @@ class _MyHomePageState extends State<MyHomePage> {
                         arguments: Restaurant(
                             docData['name'],
                             docData['description'],
-                            // docData['image'],
+                            docData['hero_type'],
+                            docData['directory_path'],
+                            docData['image_h_path'],
                             docData['abilities']),
                       );
                     },

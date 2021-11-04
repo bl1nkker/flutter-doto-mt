@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 class Restaurant {
   final String name;
   final String description;
+  final String img_directory_path;
+  final String img_hero_path;
+  final String hero_type;
   // final String image;
   final List<dynamic> abilities;
 
-  Restaurant(
-      this.name,
-      this.description,
-      // this.image,
-      this.abilities);
+  Restaurant(this.name, this.description, this.hero_type,
+      this.img_directory_path, this.img_hero_path, this.abilities);
 }
 
 // Details Widget
@@ -24,6 +24,7 @@ class DetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     // Arguments from parent widget
     final args = ModalRoute.of(context)!.settings.arguments as Restaurant;
+    print(args.abilities);
     return Scaffold(
       appBar: AppBar(
         title: Text(args.name),
@@ -33,6 +34,9 @@ class DetailsPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              Image(
+                  image: AssetImage(
+                      'images/${args.img_directory_path}/${args.img_hero_path}')),
               Text(args.name, style: TextStyle(fontSize: 32)),
               SizedBox(height: 50.0),
               Text(args.description,
@@ -41,18 +45,13 @@ class DetailsPage extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Column(children: [
-                    Text('Menu',
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.w500)),
-                    ...args.abilities.map((food) => Text(food)).toList()
-                  ]),
-                  Column(children: [
-                    Text('Popular',
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.w500)),
-                    ...args.abilities.map((food) => Text(food)).toList()
-                  ])
+                  ...args.abilities.map((ability) => Column(
+                        children: [
+                          Text(ability['ability_name']),
+                          Text(ability['ability_description']),
+                          Text(ability['ability_image'])
+                        ],
+                      ))
                 ],
               )
             ],
