@@ -18,57 +18,89 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       routes: {
-        DetailsPage.routeName: (context) => const DetailsPage(),
+        HeroPage.routeName: (context) => const HeroPage(),
       },
       title: 'Дота Герои',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'мобильное приложение еееее'),
+      home: const HomePage(title: 'Dota 2 All Heroes'),
     );
   }
 }
 
 // Home Page
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key, required this.title}) : super(key: key);
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(widget.title),
+          title: Text(
+            widget.title,
+            style: TextStyle(color: Colors.black),
+          ),
+          backgroundColor: Colors.redAccent,
         ),
+        backgroundColor: Colors.black,
         body: StreamBuilder(
           stream: FirebaseFirestore.instance.collection('heroes').snapshots(),
-          builder: (BuildContext bc, AsyncSnapshot<QuerySnapshot> snapshot) {
-            if (!snapshot.hasData) return const Text('Nothing is here...');
+          builder: (BuildContext _, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (!snapshot.hasData) return const Text('No heroes');
             return ListView.builder(
                 itemCount: snapshot.data!.docs.length,
                 itemBuilder: (BuildContext bc, int index) {
-                  final docData = snapshot.data!.docs[index].data() as Map;
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(
-                        context,
-                        DetailsPage.routeName,
-                        arguments: Restaurant(
-                            docData['name'],
-                            docData['description'],
-                            docData['hero_type'],
-                            docData['directory_path'],
-                            docData['image_h_path'],
-                            docData['abilities']),
-                      );
-                    },
-                    child: Card(
-                      child: Text(docData["name"]),
+                  final d = snapshot.data!.docs[index].data() as Map;
+                  final Color color = d['hero_type'] == 'strength'
+                      ? Colors.red
+                      : d['hero_type'] == 'intelligence'
+                          ? Colors.blue
+                          : Colors.green;
+                  return Container(
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                          color: color,
+                        ),
+                        borderRadius: BorderRadius.all(Radius.circular(20))),
+                    margin:
+                        EdgeInsets.symmetric(vertical: 10.0, horizontal: 30.0),
+                    padding:
+                        EdgeInsets.symmetric(vertical: 10.0, horizontal: 30.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(
+                          context,
+                          HeroPage.routeName,
+                          arguments: DotaHero(
+                              d['name'],
+                              d['description'],
+                              d['hero_type'],
+                              d['directory_path'],
+                              d['image_h_path'],
+                              d['abilities']),
+                        );
+                      },
+                      child: Row(
+                        children: [
+                          Image(
+                            image: AssetImage(
+                                'images/${d['directory_path']}/${d['image_i_path']}'),
+                            width: 36,
+                            height: 36,
+                          ),
+                          SizedBox(
+                            width: 30.0,
+                          ),
+                          Text(
+                            d["name"],
+                            style: TextStyle(fontSize: 32, color: Colors.white),
+                          )
+                        ],
+                      ),
                     ),
                   );
                 });
